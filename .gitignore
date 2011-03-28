@@ -1,0 +1,7 @@
+*.pyc
+*.db
+#*
+*#
+/env/
+.ropeproject/
+/django_quickblocks/fixtures/

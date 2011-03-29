@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name = 'django-quickblocks',
     version = __import__('django_quickblock').__version__,
-    licence = 'BSD'
+    licence = 'BSD',
 
     install_requires = [
         'Django==1.3',
@@ -13,7 +13,6 @@ setup(
     dependency_links = [],
     description = "",
     long_description = open('README.org').read(),
-    author = 'Nicolas Pottier'
     author_email = 'code@nyaruka.com',
     url = 'http://www.nyaruka.com/#open',
     download_url = 'http://github.com/nyaruka/django-quickblocks',

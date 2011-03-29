@@ -3,5 +3,6 @@
 #*
 *#
 /env/
+/proj/
 .ropeproject/
 /django_quickblocks/fixtures/

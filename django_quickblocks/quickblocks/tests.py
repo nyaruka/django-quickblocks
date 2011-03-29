@@ -1,16 +1,12 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
+from django import template
 from django.test import TestCase
+from mock import Mock
 
+class TestLoadQuickBlocksNode(TestCase):
+    
+    def test_load_quickblocks():
+        parser = Mock()
+        token = Mock(methods=['split_contents'])
+        token.split_contents.return_value = ('load_qbs', 'test_blocks')
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+        import pdb; pdb.set_trace()

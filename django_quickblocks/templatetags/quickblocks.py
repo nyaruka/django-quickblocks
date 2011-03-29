@@ -44,12 +44,13 @@ from django.db import models
 
 register = template.Library()
 
-QuickBlockType = models.get_model('django_quickblocks', 'quickblocktype')
-QuickBlock = models.get_model('django_quickblocks', 'quickblock')
+QuickBlockType = models.get_model('quickblocks', 'quickblocktype')
+QuickBlock = models.get_model('quickblocks', 'quickblock')
 
 class LoadQuickBlocksNode(template.Node):
-    def __init__(self, slug):
+    def __init__(self, slug, is_variable):
        self.slug = slug
+       self.is_variable = is_variable
 
     def render(self, context):
         real_slug = self.slug

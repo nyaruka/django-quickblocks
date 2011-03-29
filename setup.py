@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'django-quickblocks',
-    version = __import__('django-quickblock').__version__,
+    version = __import__('django_quickblocks').__version__,
     licence = 'BSD',
 
     install_requires = [

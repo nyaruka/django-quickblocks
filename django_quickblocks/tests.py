@@ -30,6 +30,23 @@ class TestQuickblocks(TestCase):
         # create quickblocktype and quickblocks
         user = User.objects.create_user('eugene','eugene@nyaruka.com','glue')
         blocktype = QuickBlockType.objects.create(slug='test',description='testing...',owner=user)
-        block = QuickBlock.objects.create(title='Hahahaha....',content='Oh my God! Hahahahaaa...',type=blocktype,owner=user)
+        QuickBlock.objects.create(title='Hahahaha....',content='Oh my God! Hahahahaaa...',type=blocktype,owner=user)
+        QuickBlock.objects.create(title='Wow....',content='Oh my God! Wowwwww...',type=blocktype,owner=user)
+
         
-        
+        # create context just a dictionary
+        context = {}
+        # test if the quickblocktype doesntexists
+
+        self.assertFalse(blocktype, QuickBlockType.objects.get(slug='test'))
+        self.assertRaises(QuickBlockType.DoesNotExist, QuickBlockType.objects.get(slug='raise_exception'))
+
+        # test if the quickblocktype exists
+        self.assertEquals(blocktype, QuickBlockType.objects.get(slug='test'))
+
+        blocks = QuickBlock.objects.filter(type=blocktype.pk)
+
+        context['test'] = blocks
+
+        # test if the context contains blocks
+        self.assertEquals(blocks, context['test'])

@@ -44,8 +44,8 @@ from django.db import models
 
 register = template.Library()
 
-QuickBlockType = models.get_model('quickblocks', 'quickblocktype')
-QuickBlock = models.get_model('quickblocks', 'quickblock')
+QuickBlockType = models.get_model('django_quickblocks', 'quickblocktype')
+QuickBlock = models.get_model('django_quickblocks', 'quickblock')
 
 class LoadQuickBlocksNode(template.Node):
     def __init__(self, slug, is_variable):
@@ -59,6 +59,7 @@ class LoadQuickBlocksNode(template.Node):
             quickblock_type = QuickBlockType.objects.get(slug=real_slug)
         except QuickBlockType.DoesNotExist:
             return getattr(settings, 'QUICKBLOCK_STRING_IF_INVALID', '<b><font color="red">QuickBlockType with slug: "%s" not found.</font></b>' % real_slug)
+
 
         quickblocks = QuickBlock.objects.filter(type=quickblock_type.pk, active=True).order_by('-priority')
         context[real_slug] = quickblocks

@@ -2,7 +2,7 @@ from mock import Mock
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django_quickblocks.models import QuickBlockType, QuickBlock
-from django_quickblocks.templatetags.quickblocks import do_load_quickblocks
+from django_quickblocks.templatetags.quickblocks import do_load_quickblocks, LoadQuickBlocksNode
 
 class TestQuickblocks(TestCase):
     
@@ -26,27 +26,34 @@ class TestQuickblocks(TestCase):
         self.assertEquals("test_blocks", node.slug)
 
         
-    def test_quickblock_render(self):
+    def test_node(self):
+        node = LoadQuickBlocksNode('test', False)
+
+        # create context dictionary
+        context = {}
+        
+        value = node.render(context)
+
+        self.assertEquals('<b><font color="red">QuickBlockType with slug: "test" not found.</font></b>', value)
+
+        self.assertFalse('test' in context)
+
         # create quickblocktype and quickblocks
         user = User.objects.create_user('eugene','eugene@nyaruka.com','glue')
-        blocktype = QuickBlockType.objects.create(slug='test',description='testing...',owner=user)
+        blocktype = QuickBlockType.objects.create(slug='another_test',description='testing...',owner=user)
         QuickBlock.objects.create(title='Hahahaha....',content='Oh my God! Hahahahaaa...',type=blocktype,owner=user)
         QuickBlock.objects.create(title='Wow....',content='Oh my God! Wowwwww...',type=blocktype,owner=user)
 
+        node = LoadQuickBlocksNode('another_test', False)
         
-        # create context just a dictionary
-        context = {}
-        # test if the quickblocktype doesntexists
+        context['another_test'] = QuickBlock.objects.filter(type=blocktype)
+        
+        value = node.render(context)
 
-        self.assertFalse(blocktype, QuickBlockType.objects.get(slug='test'))
-        self.assertRaises(QuickBlockType.DoesNotExist, QuickBlockType.objects.get(slug='raise_exception'))
+        self.assertTrue('another_test' in context)
+        self.assertEqual('', value)
 
-        # test if the quickblocktype exists
-        self.assertEquals(blocktype, QuickBlockType.objects.get(slug='test'))
 
-        blocks = QuickBlock.objects.filter(type=blocktype.pk)
+        
 
-        context['test'] = blocks
-
-        # test if the context contains blocks
-        self.assertEquals(blocks, context['test'])
+        

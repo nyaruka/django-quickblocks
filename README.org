@@ -4,17 +4,17 @@
    Django Quickblocks is a plugable Django based web application. Quickblocks has been developed to be more generic
    on how contents are being integrated within web applications.
 
-   Quickblocks key factor is how easy it is to categorize contains depending on where and how you want to display them by
-   giving the users the power to use their creativity as their decision factor. Designing quickblocks we have focused on how
+   Quickblocks key factor is how easy it is to categorize contents depending on where and how you want to display them by
+   giving the users the power to use their creativity. Designing django-quickblocks we have focused on how
    contents are being displayed from thousand sites and from there we managed to make it more generic.
 
-   Quickblocks makes content management for average general site a blast.
+   Quickblocks makes content management for average general sites a blast.
 
 ** Features
    - Create quickblock types
    - Create different quicblock from quickblock type
    - Use fields of your choice (quickblocks type maybe used most of the time.)
-   - Template tags that integrates blocks on the fly
+   - Template tags that integrates quickblocks in the template on the fly
    - more...
 
 ** Download

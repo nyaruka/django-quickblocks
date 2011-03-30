@@ -19,18 +19,32 @@
 
 ** Download
 
-*** Install from Github
+*** From Github
     You can always get the latest version of django-quickblocks from github. Using git you can clone the django-quickblocks
     or download either zipped version within your favorite browser and put it into your project folder.
 
     My prefered way is to have requirements into a simple text file in the root of your project.
-    We like to call it =code=pip-requires.txt=code= put =code=-e git+http://github.com/nyaruka/django-quickblocks.git#egg=django_quickblocks=code=
-    on its own line and install everything in this file as following:
+    We like to call it =pip-requires.txt= .
+    Put =-e git+http://github.com/nyaruka/django-quickblocks.git#egg=django_quickblocks= on its own line
+    and install everything in the file as following:
     #+BEGIN_EXAMPLE
     pip install -r pip-requires.txt
     #+END_EXAMPLE
 
-
 ** Configuration
+   To enable django-quickblocks for your project edit the projects =settings.py= and add the following:
+   #+BEGIN_EXAMPLE
+   INSTALLED_APPS = (
+       Other apps ...
+       'django_reversion',
+       'django_quickblocks'
+   )
+   #+END_EXAMPLE
 
-** Getting Started
+   Then syncronize your database to include these apps
+   #+BEGIN_EXAMPLE
+   % python manage.py syncdb
+   #+END_EXAMPLE
+
+   And thats all.
+   

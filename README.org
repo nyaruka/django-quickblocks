@@ -24,7 +24,7 @@
     or download either zipped version within your favorite browser and put it into your project folder.
 
     My prefered way is to have requirements into a simple text file in the root of your project.
-    We like to call it =pip-requires.txt= but you can call it any name you like.
+    We like to call it =pip-requires.txt=(your choice).
     Put =-e git+http://github.com/nyaruka/django-quickblocks.git#egg=django_quickblocks= on its own line
     and install everything in the file as following:
     #+BEGIN_EXAMPLE
@@ -46,5 +46,28 @@
    % python manage.py syncdb
    #+END_EXAMPLE
 
-   And thats all.
-   
+** Getting Started
+   Once you have quickblock types and quickblocks it is time to display them in the template. There is where template tags comes into play.
+
+   This app offers one templatetag =load_quickblocks=. Which does a query for all active Quickblock objects for the passed QuickblockType
+   identified by its slug. You can then access that list within your context.
+
+   It accepts one parameter the =slug=
+
+*** Syntax
+   #+BEGIN_EXAMPLE
+   {% load_quickblocks [name]  %}
+   #+END_EXAMPLE
+
+*** Example usage:
+   #+BEGIN_EXAMPLE
+   {% load_quickblocks  %}
+   ...
+   {% load_quickblocks "home_banner_blocks" %}
+   ...
+   #+END_EXAMPLE
+**** Note:
+     You may also use the shortcut tag =load-qbs= as ={% load_qbs "home_banner_blocks" %}=
+
+     If you specify a slug that hos noi associated quicl block, then an error message will be inserted in your
+     template. You man change this text by setting the value fothe =QUICKBLOCK_IF_INVALID= in your settings

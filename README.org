@@ -1,5 +1,5 @@
-* Django-quickblocks
-
+#+TITLE: Django Quickblocks
+  
 ** Overview
    Django Quickblocks is a plugable Django based web application. Quickblocks has been developed to be more generic
    on how contents are being integrated within web applications.

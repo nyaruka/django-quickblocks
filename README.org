@@ -24,7 +24,7 @@
     or download either zipped version within your favorite browser and put it into your project folder.
 
     My prefered way is to have requirements into a simple text file in the root of your project.
-    We like to call it =pip-requires.txt= .
+    We like to call it =pip-requires.txt= but you can call it any name you like.
     Put =-e git+http://github.com/nyaruka/django-quickblocks.git#egg=django_quickblocks= on its own line
     and install everything in the file as following:
     #+BEGIN_EXAMPLE

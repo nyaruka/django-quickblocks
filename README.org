@@ -1,0 +1,36 @@
+* Django-quickblocks
+
+** Overview
+   Django Quickblocks is a plugable Django based web application. Quickblocks has been developed to be more generic
+   on how contents are being integrated within web applications.
+
+   Quickblocks key factor is how easy it is to categorize contains depending on where and how you want to display them by
+   giving the users the power to use their creativity as their decision factor. Designing quickblocks we have focused on how
+   contents are being displayed from thousand sites and from there we managed to make it more generic.
+
+   Quickblocks makes content management for average general site a blast.
+
+** Features
+   - Create quickblock types
+   - Create different quicblock from quickblock type
+   - Use fields of your choice (quickblocks type maybe used most of the time.)
+   - Template tags that integrates blocks on the fly
+   - more...
+
+** Download
+
+*** Install from Github
+    You can always get the latest version of django-quickblocks from github. Using git you can clone the django-quickblocks
+    or download either zipped version within your favorite browser and put it into your project folder.
+
+    My prefered way is to have requirements into a simple text file in the root of your project.
+    We like to call it =code=pip-requires.txt=code= put =code=-e git+http://github.com/nyaruka/django-quickblocks.git#egg=django_quickblocks=code=
+    on its own line and install everything in this file as following:
+    #+BEGIN_EXAMPLE
+    pip install -r pip-requires.txt
+    #+END_EXAMPLE
+
+
+** Configuration
+
+** Getting Started

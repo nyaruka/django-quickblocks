@@ -12,7 +12,7 @@ setup(
         ],
     dependency_links = [],
     description = "",
-    long_description = open('README.org').read(),
+    long_description = open('README.rst').read(),
     author = 'Nicolas Pottier, Eugene Rwagasore',
     author_email = 'code@nyaruka.com',
     url = 'http://www.nyaruka.com/#open',
@@ -23,7 +23,7 @@ setup(
     zip_safe = False,
     
     classifiers=[
-        'Development Status :: 1 - Beta',
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',

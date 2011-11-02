@@ -1,4 +1,4 @@
-VERSION = (0, 9, 0)  # following PEP 386
+VERSION = (0, 9, 1)  # following PEP 386
 
 
 def get_version():

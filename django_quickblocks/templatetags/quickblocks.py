@@ -36,54 +36,33 @@ Example usage::
     the value of the QUICKBLOCK_STRING_IF_INVALID setting.
 
 """
-
 from django import template
 from django.conf import settings
 from django.db import models
-
 
 register = template.Library()
 
 QuickBlockType = models.get_model('django_quickblocks', 'quickblocktype')
 QuickBlock = models.get_model('django_quickblocks', 'quickblock')
 
-class LoadQuickBlocksNode(template.Node):
-    def __init__(self, slug, is_variable):
-       self.slug = slug
-       self.is_variable = is_variable
+@register.simple_tag(takes_context=True)
+def load_quickblocks(context, slug, tag=None):
+    try:
+        quickblock_type = QuickBlockType.objects.get(slug=slug)
+    except QuickBlockType.DoesNotExist:
+        return getattr(settings, 'QUICKBLOCK_STRING_IF_INVALID', '<b><font color="red">QuickBlockType with slug: %s not found</font></b>') % slug
+ 
+    quickblocks = QuickBlock.objects.filter(quickblock_type=quickblock_type, is_active=True).order_by('-priority')
 
-    def render(self, context):
-        real_slug = self.slug
+    # filter by our tag if one was specified
+    if not tag is None:
+        quickblocks = quickblocks.filter(tags__icontains=tag)
 
-        try:
-            quickblock_type = QuickBlockType.objects.get(slug=real_slug)
-        except QuickBlockType.DoesNotExist:
-            return getattr(settings, 'QUICKBLOCK_STRING_IF_INVALID', '<b><font color="red">QuickBlockType with slug: "%s" not found.</font></b>' % real_slug)
+    context[slug] = quickblocks
+    return ''
+
+@register.simple_tag(takes_context=True)
+def load_qbs(context, slug, tag=None):
+    return load_quickblocks(context, slug, tag)
 
 
-        quickblocks = QuickBlock.objects.filter(type=quickblock_type.pk, active=True).order_by('-priority')
-        context[real_slug] = quickblocks
-
-        return ''
-
-def do_load_quickblocks(parser, token):
-        tokens = token.split_contents()
-        is_variable = False
-        slug = None
-
-        if len(tokens) != 2:
-            raise template.TemplateSyntaxError, \
-                "%r tag should have 2 arguments" % (tokens[0],)
-        tag_name, slug = tokens
-
-        # Check to see if the slug is properly double/single quoted
-        if not (slug[0] == slug[-1] and slug[0] in ('"', "'")):
-            is_variable = True
-            slug = slug
-        else:
-            slug = slug[1:-1]
-
-        return LoadQuickBlocksNode(slug, is_variable)
-
-register.tag('load_quickblocks', do_load_quickblocks)
-register.tag('load_qbs', do_load_quickblocks)

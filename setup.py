@@ -8,7 +8,6 @@ setup(
     install_requires = [
         'Django>=1.3',
         'PIL>=1.1.7',
-        'django-smartmin',
         'django-reversion>=1.3.3'
         ],
     dependency_links = [],

@@ -2,6 +2,7 @@
 *.db
 #*
 *#
+*~
 /env/
 /proj/
 .ropeproject/

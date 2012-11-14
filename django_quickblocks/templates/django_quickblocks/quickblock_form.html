@@ -1,0 +1,32 @@
+{% extends "smartmin/form.html" %}
+
+{% block extra-style %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/prettify.css"></link>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-wysihtml5.css"></link>
+<style>
+{% if type.has_rich_text %}
+#id_content {
+  width: 650px;
+  height: 250px;
+}
+{% endif %}
+</style>
+{% endblock %}
+
+{% block extra-script %}
+<script src="{{ STATIC_URL }}js/wysihtml5-0.3.0.min.js"></script>
+<script src="{{ STATIC_URL }}js/prettify.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap-wysihtml5.js"></script>
+
+<script>
+{% if type.has_rich_text %}
+$(function(){
+  $("#id_content").wysihtml5({
+    color: true,
+    html: true,                            
+    stylesheets: ["{{ STATIC_URL }}css/wysiwyg-color.css"], 
+                             });
+});
+{% endif %}
+</script>
+{% endblock %}

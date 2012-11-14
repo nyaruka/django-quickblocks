@@ -14,6 +14,23 @@ class QuickBlockType(SmartModel):
     description = models.TextField(blank=True, null=True,
                                    help_text="A description of where this content type is used on the site and how it will be dsiplayed")
 
+    has_title = models.BooleanField(default=True,
+                                    help_text="Whether this content should include a title")
+    has_image = models.BooleanField(default=True,
+                                    help_text="Whether this content should include an image")
+    has_rich_text = models.BooleanField(default=True,
+                                        help_text="Whether this content should use a rich HTML editor")
+    has_summary = models.BooleanField(default=True,
+                                      help_text="Whether this content should include a summary field")
+    has_link = models.BooleanField(default=True,
+                                   help_text="Whether this content should include a link")
+    has_gallery = models.BooleanField(default=False,
+                                      help_text="Whether this content should allow upload of additional images, ie a gallery")
+    has_video = models.BooleanField(default=False,
+                                    help_text="Whether this content should allow setting a YouTube id")
+    has_tags = models.BooleanField(default=False,
+                                   help_text="Whether this content should allow tags")
+
     def __unicode__(self):
         return self.name
 
@@ -28,12 +45,16 @@ class QuickBlock(SmartModel):
 
     title = models.CharField(max_length=255, blank=True, null=True,
                              help_text="The title for this block of content, optional")
+    summary = models.TextField(blank=True, null=True,
+                               help_text="The summary for this item, should be short")
     content = models.TextField(blank=True, null=True,
                                help_text="The body of text for this content block, optional")
     image = models.ImageField(blank=True, null=True, upload_to='quickblocks',
                               help_text="Any image that should be displayed with this content block, optional")
     link = models.CharField(blank=True, null=True, max_length=255,
                             help_text="Any link that should be associated with this content block, optional")
+    video_id = models.CharField(blank=True, null=True, max_length=255,
+                                help_text="The id of the YouTube video that should be linked to this item")
     tags = models.CharField(blank=True, null=True, max_length=255,
                            help_text="Any tags for this content block, separated by spaces, can be used to do more advanced filtering, optional")
     priority = models.IntegerField(default=0,

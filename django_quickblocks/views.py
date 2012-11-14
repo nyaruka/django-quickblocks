@@ -83,7 +83,7 @@ class QuickBlockCRUDL(SmartCRUDL):
             if block_type:
                 return "Create %s" % block_type.name
             else:
-                return "Create Quickblock"
+                return "Create Content Block"
 
         def get_type(self):
             if 'type' in self.request.REQUEST:
@@ -110,6 +110,7 @@ class QuickBlockCRUDL(SmartCRUDL):
         link_fields = ('title',)
         default_order = '-modified_on'
         search_fields = ('title__icontains', 'content__icontains', 'summary__icontains')
+        title = "Content Blocks"
 
         def get_context_data(self, *args, **kwargs):
             context = super(QuickBlockCRUDL.List, self).get_context_data(*args, **kwargs)
@@ -118,10 +119,37 @@ class QuickBlockCRUDL(SmartCRUDL):
 
 class QuickBlockTypeCRUDL(SmartCRUDL):
     model = QuickBlockType
-    permissions = True
     actions = ('create', 'update', 'list')
 
     class List(SmartListView):
+        title = "Content Types"
         fields = ('name', 'slug', 'description')
         link_fields = ('name',)
+
+class QuickBlockImageCRUDL(SmartCRUDL):
+    model = QuickBlockImage
+    actions = ('create', 'update', 'list')
+
+    class Update(SmartUpdateView):
+        exclude = ('quickblock', 'modified_by', 'modified_on', 'created_on', 'created_by', 'width', 'height')
+        title = "Edit Image"
+        success_message = "Image edited successfully."        
+
+        def get_success_url(self):
+            return reverse('django_quickblocks.quickblock_update', args=[self.object.quickblock.id])
+
+    class Create(SmartCreateView):
+        exclude = ('quickblock', 'is_active', 'modified_by', 'modified_on', 'created_on', 'created_by', 'width', 'height')
+        title = "Add Image"
+        success_message = "Image added successfully."
+
+        def get_success_url(self):
+            return reverse('django_quickblocks.quickblock_update', args=[self.object.quickblock.id])
+
+        def pre_save(self, obj):
+            obj = super(QuickBlockImageCRUDL.Create, self).pre_save(obj)
+            obj.quickblock = QuickBlock.objects.get(pk=self.request.REQUEST.get('quickblock'))
+            return obj
+
+        
 

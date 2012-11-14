@@ -68,5 +68,20 @@ class QuickBlock(SmartModel):
         if self.tags.strip():
             self.tags = " " + self.tags.strip().lower() + " "
 
+    def sorted_images(self):
+        return self.images.filter(is_active=True).order_by('-priority')        
+
     def __unicode__(self):
         return self.title
+
+class QuickBlockImage(SmartModel):
+    quickblock = models.ForeignKey(QuickBlock, related_name='images')
+    image = models.ImageField(upload_to='quickblock_images/', width_field="width", height_field="height")
+    caption = models.CharField(max_length=64)
+    priority = models.IntegerField(default=0, blank=True, null=True)
+    width = models.IntegerField()
+    height = models.IntegerField()
+
+    def __unicode__(self):
+        return self.image.url
+

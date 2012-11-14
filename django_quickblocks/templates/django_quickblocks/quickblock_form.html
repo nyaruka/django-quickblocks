@@ -1,4 +1,22 @@
 {% extends "smartmin/form.html" %}
+{% load thumbnail %}
+
+{% block extra-fields %}
+{% if object and type.has_gallery %}
+<div class="control-group ">
+  <label class="control-label" for="">Gallery</label>
+  <div class="controls">
+    {% for img in object.sorted_images %}
+    {% thumbnail img.image "100x100" crop="center" as im %}
+    <a href="{% url django_quickblocks.quickblockimage_update img.id %}"><img class="thumb" src="{{ im.url }}" width="{{ img.x }}" height="{{ img.y }}" /></a>
+    {% endthumbnail %}
+    {% endfor %}
+    <a class="btn btn-small" href="{% url django_quickblocks.quickblockimage_create %}?quickblock={{ object.id }}">Add Image</a>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
 
 {% block extra-style %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/prettify.css"></link>
@@ -8,6 +26,14 @@
 #id_content {
   width: 650px;
   height: 250px;
+}
+#id_summary {
+  width: 650px;
+  height: 60px;
+}
+img.thumb {
+  margin: 5px;
+  border: 1px solid #ccc;
 }
 {% endif %}
 </style>
@@ -23,9 +49,15 @@
 $(function(){
   $("#id_content").wysihtml5({
     color: true,
-    html: true,                            
+    html: true,  
+    image: false,                             
+{% if user.is_superuser %}                            
+    html: true,
+{% else %}
+    html: false,
+{% endif %}
     stylesheets: ["{{ STATIC_URL }}css/wysiwyg-color.css"], 
-                             });
+  });
 });
 {% endif %}
 </script>

@@ -51,7 +51,7 @@ $(function(){
     color: true,
     html: true,  
     image: false,                             
-{% if user.is_superuser %}                            
+{% if user.is_superuser or perms.django_quickblocks.quickblock_html %}                            
     html: true,
 {% else %}
     html: false,

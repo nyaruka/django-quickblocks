@@ -141,12 +141,14 @@ class QuickBlockCRUDL(SmartCRUDL):
             quickblock_type = self.get_type()
             if quickblock_type:
                 queryset = queryset.filter(quickblock_type=quickblock_type)
+
+            queryset = queryset.filter(quickblock_type__is_active=True)
                 
             return queryset
 
         def get_context_data(self, *args, **kwargs):
             context = super(QuickBlockCRUDL.List, self).get_context_data(*args, **kwargs)
-            context['types'] = QuickBlockType.objects.all()
+            context['types'] = QuickBlockType.objects.filter(is_active=True)
             context['filtered_type'] = self.get_type()
             return context
 

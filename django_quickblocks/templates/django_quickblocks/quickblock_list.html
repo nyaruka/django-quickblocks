@@ -5,7 +5,7 @@
   <select name="type" style="width:180px;margin-bottom:0px">
     <option value="0" {% if filtered_type == 0 %}selected{%endif%}>-----</option>
     {% for type in types %}
-    <option value="{{ type.id }}" {% if filtered_type == type.id %}selected{%endif%}>{{ type.name }}</option>
+    <option value="{{ type.id }}" {% if filtered_type.id == type.id %}selected{%endif%}>{{ type.name }}</option>
     {% endfor %}
   </select>
   <input type="text" class="input-medium search-query" name="search" value="{{ search }}">
@@ -19,7 +19,7 @@
   <form action="{% url django_quickblocks.quickblock_create %}" method="get">
     <select name="type" style="width:180px;margin-bottom:0px">
     {% for type in types %}
-      <option value="{{ type.id }}" {% if filtered_type == type.id %}selected{%endif%}>{{ type.name }}</option>
+      <option value="{{ type.id }}" {% if filtered_type.id == type.id %}selected{%endif%}>{{ type.name }}</option>
     {% endfor %}
     </select>
     <input class="btn btn-primary" type="submit" value="Add" name="Add"></input>

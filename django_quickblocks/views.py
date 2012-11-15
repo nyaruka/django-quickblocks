@@ -128,11 +128,17 @@ class QuickBlockCRUDL(SmartCRUDL):
         search_fields = ('title__icontains', 'content__icontains', 'summary__icontains')
         title = "Content Blocks"
 
+        def get_type(self):
+            if 'type' in self.request.REQUEST:
+                return QuickBlockType.objects.get(id=self.request.REQUEST.get('type'))
+            elif 'slug' in self.request.REQUEST:
+                return QuickBlockType.objects.get(slug=self.request.REQUEST.get('slug'))
+            return None
+
         def get_queryset(self, **kwargs):
             queryset = super(QuickBlockCRUDL.List, self).get_queryset(**kwargs)
-            quickblock_type = int(self.request.REQUEST.get('type', "0"))
 
-            # filter by the group
+            quickblock_type = self.get_type()
             if quickblock_type:
                 queryset = queryset.filter(quickblock_type=quickblock_type)
                 
@@ -141,7 +147,7 @@ class QuickBlockCRUDL(SmartCRUDL):
         def get_context_data(self, *args, **kwargs):
             context = super(QuickBlockCRUDL.List, self).get_context_data(*args, **kwargs)
             context['types'] = QuickBlockType.objects.all()
-            context['filtered_type'] = int(self.request.REQUEST.get('type', "0"))
+            context['filtered_type'] = self.get_type()
             return context
 
 class QuickBlockTypeCRUDL(SmartCRUDL):

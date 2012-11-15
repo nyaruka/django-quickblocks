@@ -29,13 +29,13 @@
 }
 #id_summary {
   width: 650px;
-  height: 60px;
+  height: 150px;
 }
+{% endif %}
 img.thumb {
   margin: 5px;
   border: 1px solid #ccc;
 }
-{% endif %}
 </style>
 {% endblock %}
 
@@ -48,6 +48,17 @@ img.thumb {
 {% if type.has_rich_text %}
 $(function(){
   $("#id_content").wysihtml5({
+    color: true,
+    html: true,  
+    image: false,                             
+{% if user.is_superuser %}                            
+    html: true,
+{% else %}
+    html: false,
+{% endif %}
+    stylesheets: ["{{ STATIC_URL }}css/wysiwyg-color.css"], 
+  });
+  $("#id_summary").wysihtml5({
     color: true,
     html: true,  
     image: false,                             

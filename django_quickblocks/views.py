@@ -8,7 +8,7 @@ class QuickBlockCRUDL(SmartCRUDL):
     actions = ('create', 'update', 'list')
 
     class Update(SmartUpdateView):
-        fields = ('title', 'summary', 'content', 'image', 'link', 'video_id', 'quickblock_type', 'is_active')
+        fields = ('title', 'summary', 'content', 'image', 'color', 'link', 'video_id', 'quickblock_type', 'priority', 'is_active')
 
         def pre_save(self, obj):
             obj = super(QuickBlockCRUDL.Update, self).pre_save(obj)
@@ -37,6 +37,9 @@ class QuickBlockCRUDL(SmartCRUDL):
 
             if not block_type.has_link:
                 exclude.append('link')
+
+            if not block_type.has_color:
+                exclude.append('color')
 
             return exclude
 
@@ -76,7 +79,20 @@ class QuickBlockCRUDL(SmartCRUDL):
                 if not block_type.has_link:
                     exclude.append('link')
 
+                if not block_type.has_color:
+                    exclude.append('color')
+
             return exclude
+
+        def derive_initial(self, *args, **kwargs):
+            initial = super(QuickBlockCRUDL.Create, self).derive_initial(*args, **kwargs)
+            quickblock_type = self.get_type()
+            other_blocks = QuickBlock.objects.filter(is_active=True, quickblock_type=quickblock_type).order_by('-priority')
+            if not other_blocks:
+                initial['priority'] = 0
+            else:
+                initial['priority'] = other_blocks[0].priority + 1
+            return initial
 
         def derive_title(self):
             block_type = self.get_type()
@@ -112,9 +128,20 @@ class QuickBlockCRUDL(SmartCRUDL):
         search_fields = ('title__icontains', 'content__icontains', 'summary__icontains')
         title = "Content Blocks"
 
+        def get_queryset(self, **kwargs):
+            queryset = super(QuickBlockCRUDL.List, self).get_queryset(**kwargs)
+            quickblock_type = int(self.request.REQUEST.get('type', "0"))
+
+            # filter by the group
+            if quickblock_type:
+                queryset = queryset.filter(quickblock_type=quickblock_type)
+                
+            return queryset
+
         def get_context_data(self, *args, **kwargs):
             context = super(QuickBlockCRUDL.List, self).get_context_data(*args, **kwargs)
             context['types'] = QuickBlockType.objects.all()
+            context['filtered_type'] = int(self.request.REQUEST.get('type', "0"))
             return context
 
 class QuickBlockTypeCRUDL(SmartCRUDL):
@@ -142,6 +169,16 @@ class QuickBlockImageCRUDL(SmartCRUDL):
         exclude = ('quickblock', 'is_active', 'modified_by', 'modified_on', 'created_on', 'created_by', 'width', 'height')
         title = "Add Image"
         success_message = "Image added successfully."
+
+        def derive_initial(self, *args, **kwargs):
+            initial = super(QuickBlockImageCRUDL.Create, self).derive_initial(*args, **kwargs)
+            quickblock = QuickBlock.objects.get(pk=self.request.REQUEST.get('quickblock'))
+            images = quickblock.sorted_images()
+            if not images:
+                initial['priority'] = 0
+            else:
+                initial['priority'] = images[0].priority + 1
+            return initial
 
         def get_success_url(self):
             return reverse('django_quickblocks.quickblock_update', args=[self.object.quickblock.id])

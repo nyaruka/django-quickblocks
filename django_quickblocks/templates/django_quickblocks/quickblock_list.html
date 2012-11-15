@@ -1,11 +1,25 @@
 {% extends "smartmin/list.html" %}
 
+{% block search-form %}
+<form class="form-search">
+  <select name="type" style="width:180px;margin-bottom:0px">
+    <option value="0" {% if filtered_type == 0 %}selected{%endif%}>-----</option>
+    {% for type in types %}
+    <option value="{{ type.id }}" {% if filtered_type == type.id %}selected{%endif%}>{{ type.name }}</option>
+    {% endfor %}
+  </select>
+  <input type="text" class="input-medium search-query" name="search" value="{{ search }}">
+  <button type="submit" class="btn">Search</button>
+</form>
+{% endblock %}
+
+
 {% block table-buttons %}
 <div class="pull-right">
   <form action="{% url django_quickblocks.quickblock_create %}" method="get">
-    <select name="type" style="width:150px;margin-bottom:0px">
+    <select name="type" style="width:180px;margin-bottom:0px">
     {% for type in types %}
-      <option value="{{ type.id }}">{{ type.name }}</option>
+      <option value="{{ type.id }}" {% if filtered_type == type.id %}selected{%endif%}>{{ type.name }}</option>
     {% endfor %}
     </select>
     <input class="btn btn-primary" type="submit" value="Add" name="Add"></input>

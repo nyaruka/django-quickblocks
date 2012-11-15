@@ -26,6 +26,8 @@ class QuickBlockType(SmartModel):
                                    help_text="Whether this content should include a link")
     has_gallery = models.BooleanField(default=False,
                                       help_text="Whether this content should allow upload of additional images, ie a gallery")
+    has_color = models.BooleanField(default=False,
+                                    help_text="Whether this content has a color field")
     has_video = models.BooleanField(default=False,
                                     help_text="Whether this content should allow setting a YouTube id")
     has_tags = models.BooleanField(default=False,
@@ -51,6 +53,8 @@ class QuickBlock(SmartModel):
                                help_text="The body of text for this content block, optional")
     image = models.ImageField(blank=True, null=True, upload_to='quickblocks',
                               help_text="Any image that should be displayed with this content block, optional")
+    color = models.CharField(blank=True, null=True, max_length=16, 
+                            help_text="A background color to use for the image, in the format: #rrggbb")
     link = models.CharField(blank=True, null=True, max_length=255,
                             help_text="Any link that should be associated with this content block, optional")
     video_id = models.CharField(blank=True, null=True, max_length=255,
@@ -65,7 +69,7 @@ class QuickBlock(SmartModel):
         """
         If we have tags set, then adds spaces before and after to allow for SQL querying for them.
         """
-        if self.tags.strip():
+        if self.tags and self.tags.strip():
             self.tags = " " + self.tags.strip().lower() + " "
 
     def sorted_images(self):

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="span8">
+    <h1>{{ story.title }}
+{% if perms.django_quickblocks.quickblock_update %}<a class="btn pull-right" href="{% url django_quickblocks.quickblock_update story.id %}">Edit</a>{% endif %}</h1>
+    {{ story.content|safe }}
+  </div>
+  <div class="span4">
+    {% block sidebar %}
+    {% endblock %}
+  </div>
+</div>
+{% endblock %}

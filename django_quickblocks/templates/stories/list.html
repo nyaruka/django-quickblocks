@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% load thumbnail %}
+{% load quickblocks %}
+
+{% block content %}
+<div class="row">
+  <div class="span8">
+    <div class="story_list">
+      {% for story in stories %}
+      <div class="story">
+        {% block story %}
+        <div class="story_image">
+        {% thumbnail story.image "100x100" crop="33%" as im %}
+          <a href="{% url stories.story_read story_type.slug story.id story.title|slugify %}">
+            <img border="0" src={{im.url}} width={{im.width}} height={{im.height}}/>
+          </a>
+        {% endthumbnail %}
+        </div>
+        <div class="story_name"><a href="{% url stories.story_read story_type.slug story.id story.title|slugify %}"><h2>{{story.title}}</h2></a></div>
+        {% if story_type.has_summary %}
+        <div class="story_summary">{{story.summary|safe}}</div>
+        {% else %}
+        <div class="story_content">{{story.content|safe}}</div>
+        {% endif %}
+        <div class="clearfix"></div>
+        {% endblock %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="span4">
+    {% block sidebar %}
+    {% endblock %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra-style %}
+{{ block.super }}
+<style>
+.story_image {
+  float:left
+}
+.story {
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+.story_name {
+  margin-left:115px;
+  margin-bottom:5px;
+  color: #333;
+}
+
+.story_name a {
+  color: #333;
+}
+.story_summary {
+  margin-left:115px;
+  color: #666;
+}
+.story_content {
+  margin-left:115px;
+  color: #666;
+}
+</style>
+{% endblock %}
+

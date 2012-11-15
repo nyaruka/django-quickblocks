@@ -8,55 +8,23 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'QuickBlockType.has_rich_text'
-        db.add_column('django_quickblocks_quickblocktype', 'has_rich_text',
-                      self.gf('django.db.models.fields.BooleanField')(default=True),
-                      keep_default=False)
-
-        # Adding field 'QuickBlockType.has_summary'
-        db.add_column('django_quickblocks_quickblocktype', 'has_summary',
+        # Adding field 'QuickBlockType.has_color'
+        db.add_column('django_quickblocks_quickblocktype', 'has_color',
                       self.gf('django.db.models.fields.BooleanField')(default=False),
                       keep_default=False)
 
-        # Adding field 'QuickBlockType.has_gallery'
-        db.add_column('django_quickblocks_quickblocktype', 'has_gallery',
-                      self.gf('django.db.models.fields.BooleanField')(default=False),
-                      keep_default=False)
-
-        # Adding field 'QuickBlockType.has_video'
-        db.add_column('django_quickblocks_quickblocktype', 'has_video',
-                      self.gf('django.db.models.fields.BooleanField')(default=False),
-                      keep_default=False)
-
-        # Adding field 'QuickBlock.summary'
-        db.add_column('django_quickblocks_quickblock', 'summary',
-                      self.gf('django.db.models.fields.TextField')(null=True, blank=True),
-                      keep_default=False)
-
-        # Adding field 'QuickBlock.video_id'
-        db.add_column('django_quickblocks_quickblock', 'video_id',
-                      self.gf('django.db.models.fields.CharField')(max_length=255, null=True, blank=True),
+        # Adding field 'QuickBlock.color'
+        db.add_column('django_quickblocks_quickblock', 'color',
+                      self.gf('django.db.models.fields.CharField')(max_length=16, null=True, blank=True),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'QuickBlockType.has_rich_text'
-        db.delete_column('django_quickblocks_quickblocktype', 'has_rich_text')
+        # Deleting field 'QuickBlockType.has_color'
+        db.delete_column('django_quickblocks_quickblocktype', 'has_color')
 
-        # Deleting field 'QuickBlockType.has_summary'
-        db.delete_column('django_quickblocks_quickblocktype', 'has_summary')
-
-        # Deleting field 'QuickBlockType.has_gallery'
-        db.delete_column('django_quickblocks_quickblocktype', 'has_gallery')
-
-        # Deleting field 'QuickBlockType.has_video'
-        db.delete_column('django_quickblocks_quickblocktype', 'has_video')
-
-        # Deleting field 'QuickBlock.summary'
-        db.delete_column('django_quickblocks_quickblock', 'summary')
-
-        # Deleting field 'QuickBlock.video_id'
-        db.delete_column('django_quickblocks_quickblock', 'video_id')
+        # Deleting field 'QuickBlock.color'
+        db.delete_column('django_quickblocks_quickblock', 'color')
 
 
     models = {
@@ -98,6 +66,7 @@ class Migration(SchemaMigration):
         },
         'django_quickblocks.quickblock': {
             'Meta': {'object_name': 'QuickBlock'},
+            'color': ('django.db.models.fields.CharField', [], {'max_length': '16', 'null': 'True', 'blank': 'True'}),
             'content': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'quickblock_creations'", 'to': "orm['auth.User']"}),
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -114,15 +83,35 @@ class Migration(SchemaMigration):
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'video_id': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'})
         },
+        'django_quickblocks.quickblockimage': {
+            'Meta': {'object_name': 'QuickBlockImage'},
+            'caption': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'quickblockimage_creations'", 'to': "orm['auth.User']"}),
+            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'height': ('django.db.models.fields.IntegerField', [], {}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
+            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'quickblockimage_modifications'", 'to': "orm['auth.User']"}),
+            'modified_on': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'priority': ('django.db.models.fields.IntegerField', [], {'default': '0', 'null': 'True', 'blank': 'True'}),
+            'quickblock': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'images'", 'to': "orm['django_quickblocks.QuickBlock']"}),
+            'width': ('django.db.models.fields.IntegerField', [], {})
+        },
         'django_quickblocks.quickblocktype': {
             'Meta': {'object_name': 'QuickBlockType'},
             'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'quickblocktype_creations'", 'to': "orm['auth.User']"}),
             'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'has_gallery': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'has_color': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'has_gallery': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'has_image': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'has_link': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'has_rich_text': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'has_summary': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'has_video': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'has_tags': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'has_title': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'has_video': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'quickblocktype_modifications'", 'to': "orm['auth.User']"}),

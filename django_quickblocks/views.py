@@ -129,7 +129,7 @@ class QuickBlockCRUDL(SmartCRUDL):
         title = "Content Blocks"
 
         def get_type(self):
-            if 'type' in self.request.REQUEST:
+            if 'type' in self.request.REQUEST and not self.request.REQUEST.get('type') == '0':
                 return QuickBlockType.objects.get(id=self.request.REQUEST.get('type'))
             elif 'slug' in self.request.REQUEST:
                 return QuickBlockType.objects.get(slug=self.request.REQUEST.get('slug'))

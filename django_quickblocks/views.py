@@ -15,6 +15,9 @@ class QuickBlockCRUDL(SmartCRUDL):
             obj.space_tags()
             return obj
 
+        def get_success_url(self):
+            return "%s?type=%d" % (reverse('django_quickblocks.quickblock_list'), self.object.quickblock_type.id)
+
         def derive_exclude(self):
             exclude = super(QuickBlockCRUDL.Update, self).derive_exclude()
 
@@ -53,6 +56,9 @@ class QuickBlockCRUDL(SmartCRUDL):
 
     class Create(SmartCreateView):
         grant_permissions = ('django_quickblocks.change_quickblock',)
+
+        def get_success_url(self):
+            return "%s?type=%d" % (reverse('django_quickblocks.quickblock_list'), self.object.quickblock_type.id)
 
         def derive_exclude(self):
             exclude = super(QuickBlockCRUDL.Create, self).derive_exclude()

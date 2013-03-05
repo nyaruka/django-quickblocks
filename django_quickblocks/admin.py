@@ -1,9 +1,7 @@
 from django.contrib import admin
-from reversion.admin import VersionAdmin
 from models import QuickBlock, QuickBlockType
 
-
-class QuickBlockTypeAdmin(VersionAdmin):
+class QuickBlockTypeAdmin(admin.ModelAdmin):
     list_display = ('slug', 'created_on', 'created_by')
     ordering = ('-created_on',)
 
@@ -13,7 +11,7 @@ class QuickBlockTypeAdmin(VersionAdmin):
 
 admin.site.register(QuickBlockType, QuickBlockTypeAdmin)
 
-class QuickBlockAdmin(VersionAdmin):
+class QuickBlockAdmin(admin.ModelAdmin):
     list_display = ('title', 'quickblock_type', 'is_active', 'priority', 'created_on', 'created_by')
     list_filter = ('is_active', 'quickblock_type')
     ordering = ('-is_active', 'quickblock_type', '-priority')

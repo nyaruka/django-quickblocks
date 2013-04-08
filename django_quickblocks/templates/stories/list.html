@@ -12,12 +12,12 @@
         {% block story %}
         <div class="story_image">
         {% thumbnail story.image "100x100" crop="33%" as im %}
-          <a href="{% url stories.story_read story_type.slug story.id story.title|slugify %}">
+          <a href="{% url 'stories.story_read' story_type.slug story.id story.title|slugify %}">
             <img border="0" width="100" height="100" src={{im.url}} width={{im.width}} height={{im.height}}/>
           </a>
         {% endthumbnail %}
         </div>
-        <div class="story_name"><a href="{% url stories.story_read story_type.slug story.id story.title|slugify %}"><h2>{{story.title}}</h2></a></div>
+        <div class="story_name"><a href="{% url 'stories.story_read' story_type.slug story.id story.title|slugify %}"><h2>{{story.title}}</h2></a></div>
         {% if story_type.has_summary %}
         <div class="story_summary">{{story.summary|safe}}</div>
         {% else %}

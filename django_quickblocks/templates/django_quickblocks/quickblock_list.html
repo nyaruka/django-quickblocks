@@ -16,7 +16,7 @@
 
 {% block table-buttons %}
 <div class="pull-right">
-  <form action="{% url django_quickblocks.quickblock_create %}" method="get">
+  <form action="{% url 'django_quickblocks.quickblock_create' %}" method="get">
     <select name="type" style="width:180px;margin-bottom:0px">
     {% for type in types %}
       <option value="{{ type.id }}" {% if filtered_type.id == type.id %}selected{%endif%}>{{ type.name }}</option>

@@ -8,10 +8,10 @@
   <div class="controls">
     {% for img in object.sorted_images %}
     {% thumbnail img.image "100x100" crop="center" as im %}
-    <a href="{% url django_quickblocks.quickblockimage_update img.id %}"><img class="thumb" src="{{ im.url }}" width="{{ img.x }}" height="{{ img.y }}" /></a>
+    <a href="{% url 'django_quickblocks.quickblockimage_update' img.id %}"><img class="thumb" src="{{ im.url }}" width="{{ img.x }}" height="{{ img.y }}" /></a>
     {% endthumbnail %}
     {% endfor %}
-    <a class="btn btn-small" href="{% url django_quickblocks.quickblockimage_create %}?quickblock={{ object.id }}">Add Image</a>
+    <a class="btn btn-small" href="{% url 'django_quickblocks.quickblockimage_create' %}?quickblock={{ object.id }}">Add Image</a>
   </div>
 </div>
 {% endif %}

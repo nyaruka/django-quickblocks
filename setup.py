@@ -7,7 +7,7 @@ setup(
 
     install_requires = [
         'Django>=1.3',
-        'PIL>=1.1.7',
+        'Pillow==2.0.0',
         'smartmin',
         'django-reversion>=1.3.3'
         ],

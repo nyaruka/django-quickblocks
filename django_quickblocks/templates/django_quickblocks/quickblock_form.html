@@ -3,15 +3,15 @@
 
 {% block extra-fields %}
 {% if object and type.has_gallery %}
-<div class="control-group ">
-  <label class="control-label" for="">Gallery</label>
-  <div class="controls">
+<div class="form-group ">
+  <label class="col-sm-2 control-label" for="">Gallery</label>
+  <div class="col-sm-10">
     {% for img in object.sorted_images %}
     {% thumbnail img.image "100x100" crop="center" as im %}
     <a href="{% url 'django_quickblocks.quickblockimage_update' img.id %}"><img class="thumb" src="{{ im.url }}" width="{{ img.x }}" height="{{ img.y }}" /></a>
     {% endthumbnail %}
     {% endfor %}
-    <a class="btn btn-small" href="{% url 'django_quickblocks.quickblockimage_create' %}?quickblock={{ object.id }}">Add Image</a>
+    <a class="btn btn-default btn-small" href="{% url 'django_quickblocks.quickblockimage_create' %}?quickblock={{ object.id }}">Add Image</a>
   </div>
 </div>
 {% endif %}
@@ -20,7 +20,7 @@
 
 {% block extra-style %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/prettify.css"></link>
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-wysihtml5.css"></link>
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap3-wysihtml5.min.css"></link>
 <style>
 {% if type.has_rich_text %}
 #id_content {
@@ -43,15 +43,15 @@ img.thumb {
 
 {% block extra-script %}
 <script src="{{ STATIC_URL }}js/wysihtml5-advanced.js"></script>
-<script src="{{ STATIC_URL }}js/wysihtml5-0.4.0pre.min.js"></script>
 <script src="{{ STATIC_URL }}js/prettify.js"></script>
-<script src="{{ STATIC_URL }}js/bootstrap-wysihtml5.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap3-wysihtml5.all.min.js"></script>
 
 <script>
 {% if type.has_rich_text %}
 $(function(){
   $("#id_content").wysihtml5({
     parserRules: wysihtml5ParserRules,
+    "font-styles": true,
     color: true,
     html: true,  
     image: false,                             
@@ -63,6 +63,7 @@ $(function(){
     stylesheets: ["{{ STATIC_URL }}css/wysiwyg-color.css"], 
   });
   $("#id_summary").wysihtml5({
+    "font-styles": true,
     color: true,
     html: true,  
     image: false,                             

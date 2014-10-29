@@ -12,7 +12,7 @@ setup(
         ],
     dependency_links = [],
     description = "",
-    long_description = open('README.rst').read(),
+    long_description = open('README.org').read(),
     author = 'Nicolas Pottier, Eugene Rwagasore',
     author_email = 'code@nyaruka.com',
     url = 'http://www.nyaruka.com/#open',

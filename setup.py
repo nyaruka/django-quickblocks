@@ -8,7 +8,7 @@ setup(
     install_requires = [
         'Django<2.1',
         'Pillow',
-        'smartmin',
+        'smartmin==2.1.2',
         ],
     dependency_links = [],
     description = "",

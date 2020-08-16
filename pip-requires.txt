@@ -1,4 +1,4 @@
 django<2.1
 Pillow
-smartmin
+smartmin==2.1.2
 sorl-thumbnail

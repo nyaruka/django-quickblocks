@@ -6,9 +6,9 @@ setup(
     licence = 'BSD',
 
     install_requires = [
-        'Django<2.1',
+        'Django<3.0',
         'Pillow',
-        'smartmin==2.1.2',
+        'smartmin<3.0.0',
         ],
     dependency_links = [],
     description = "",

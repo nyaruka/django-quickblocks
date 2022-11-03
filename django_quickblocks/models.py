@@ -36,12 +36,15 @@ class QuickBlockType(SmartModel):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.name
+
 class QuickBlock(SmartModel):
     """
     A QuickBlock is just a block of content, organized by type and priority.  All fields are optional
     letting you use them for different things.
     """
-    quickblock_type = models.ForeignKey(QuickBlockType,
+    quickblock_type = models.ForeignKey(QuickBlockType, on_delete=models.PROTECT,
                                         verbose_name="Content Type",
                                         help_text="The category, or type for this content block")
 
@@ -78,8 +81,12 @@ class QuickBlock(SmartModel):
     def __unicode__(self):
         return self.title
 
+    def __str__(self):
+        return self.title
+
+
 class QuickBlockImage(SmartModel):
-    quickblock = models.ForeignKey(QuickBlock, related_name='images')
+    quickblock = models.ForeignKey(QuickBlock, on_delete=models.PROTECT, related_name='images')
     image = models.ImageField(upload_to='quickblock_images/', width_field="width", height_field="height")
     caption = models.CharField(max_length=64)
     priority = models.IntegerField(default=0, blank=True, null=True)
@@ -87,5 +94,8 @@ class QuickBlockImage(SmartModel):
     height = models.IntegerField()
 
     def __unicode__(self):
+        return self.image.url
+
+    def __str__(self):
         return self.image.url
 

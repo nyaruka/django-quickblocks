@@ -1,5 +1,5 @@
 from django.contrib import admin
-from models import QuickBlock, QuickBlockType
+from .models import QuickBlock, QuickBlockType
 
 class QuickBlockTypeAdmin(admin.ModelAdmin):
     list_display = ('slug', 'created_on', 'created_by')
